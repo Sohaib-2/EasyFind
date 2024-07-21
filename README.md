@@ -5,6 +5,7 @@
 ## 📖 Table of Contents
 
 - [Features](#features-)
+- [Demo](#demo-)
 - [Installation](#installation-)
 - [Usage](#usage-)
 - [Contributing](#contributing-)
@@ -16,6 +17,10 @@
 - **🔍 Easy Search:** Search for various types of places by city or country.
 - **⏱️ Real-Time Updates:** Get real-time progress updates during the search process.
 - **📊 CSV Download:** Download search results in CSV format for easy access and sharing.
+
+## 📹 Demo
+
+![EasyFind Demo](assets/demo.gif)
 
 ## 🛠️ Installation
 
