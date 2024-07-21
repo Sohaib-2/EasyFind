@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>EasyFind | Search Platform</title>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-gray-800 text-gray-200 py-4">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl font-bold">EasyFind</h1>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-4">Find With Ease ✨</h2>
+                <form action="/" method="POST">
+                    <div class="mb-4">
+                        <label class="block text-gray-400" for="category">Category</label>
+                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none bg-gray-700 text-gray-200 border-gray-600" id="category" name="category" required>
+                            <option value="universities">Universities</option>
+                            <option value="software companies">Software Companies</option>
+                            <option value="hotels">Hotels</option>
+                            <option value="restaurants">Restaurants</option>
+                            <option value="schools">Schools</option>
+                            <option value="museums">Museums</option>
+                            <option value="libraries">Libraries</option>
+                            <option value="gyms">Gyms</option>
+                            <option value="hospitals">Hospitals</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-400" for="search_type">Search Type</label>
+                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none bg-gray-700 text-gray-200 border-gray-600" id="search_type" name="search_type" required>
+                            <option value="city">City</option>
+                            <option value="country">Country</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-400" for="location">Location</label>
+                        <input class="w-full px-4 py-2 border rounded-lg focus:outline-none bg-gray-700 text-gray-200 border-gray-600" type="text" id="location" name="location" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-400" for="num_companies">Number of Results</label>
+                        <input class="w-full px-4 py-2 border rounded-lg focus:outline-none bg-gray-700 text-gray-200 border-gray-600" type="number" id="num_companies" name="num_companies" min="5" max="120" value="5" required>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" type="submit">Search</button>
+                </form>
+            </div>
+        </main>
+        <footer class="bg-gray-800 text-gray-400 py-4">
+            <div class="container mx-auto px-4 text-center">
+                <p>&copy; 2024 EasyFind. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

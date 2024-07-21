@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <title>EasyFind | Results</title>
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            max-width: 200px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-gray-800 text-gray-200 py-4">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <h1 class="text-3xl font-bold">EasyFind</h1>
+                <a href="/" class="bg-gray-700 text-gray-200 px-4 py-2 rounded hover:bg-gray-600">Back to Search</a>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                <p id="status" class="text-gray-400 mb-4">Starting the scraping process...</p>
+                <p id="count" class="text-gray-400 mb-4"></p>
+                <div class="relative pt-1">
+                    <div class="flex mb-2 items-center justify-between">
+                        <div>
+                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                                Progress
+                            </span>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                        <div id="progress-bar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600"></div>
+                    </div>
+                </div>
+                <div id="results-table" class="hidden overflow-x-auto">
+                    <table class="min-w-full bg-gray-700 border-collapse border border-gray-600">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b border-gray-600 text-left">Name</th>
+                                <th class="py-2 px-4 border-b border-gray-600 text-left">Link</th>
+                                <th class="py-2 px-4 border-b border-gray-600 text-left">Location</th>
+                                <th class="py-2 px-4 border-b border-gray-600 text-left">Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body">
+                        </tbody>
+                    </table>
+                </div>
+                <a id="download-link" href="/download" class="hidden mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Download CSV</a>
+            </div>
+        </main>
+        <footer class="bg-gray-800 text-gray-400 py-4">
+            <div class="container mx-auto px-4 text-center">
+                <p>&copy; 2024 EasyFind. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        var socket = io();
+        var totalResults = 0;
+        var resultsReceived = 0;
+
+        socket.on('update', function(data) {
+            totalResults = data.count;
+            document.getElementById('count').innerText = 'Number of results found: ' + data.count;
+            updateProgressBar();
+        });
+
+        socket.on('detailed_update', function(data) {
+            resultsReceived++;
+            updateProgressBar();
+
+            var resultsTable = document.getElementById('results-table');
+            var resultsBody = document.getElementById('results-body');
+
+            var row = document.createElement('tr');
+            row.innerHTML = '<td class="py-2 px-4 border-b border-gray-600">' + data.Name + '</td>' +
+                            '<td class="py-2 px-4 border-b border-gray-600"><a href="' + data.Link + '" target="_blank" class="text-blue-400 underline truncate">' + data.Link + '</a></td>' +
+                            '<td class="py-2 px-4 border-b border-gray-600">' + data.Location + '</td>' +
+                            '<td class="py-2 px-4 border-b border-gray-600">' + (data.Phone ? data.Phone : 'N/A') + '</td>';
+            resultsBody.appendChild(row);
+
+            resultsTable.classList.remove('hidden');
+        });
+
+        socket.on('complete', function(data) {
+            document.getElementById('status').innerText = data.message;
+            var downloadLink = document.getElementById('download-link');
+            downloadLink.classList.remove('hidden');
+        });
+
+        function updateProgressBar() {
+            if (totalResults > 0) {
+                var progressPercentage = (resultsReceived / totalResults) * 100;
+                document.getElementById('progress-bar').style.width = progressPercentage + '%';
+            }
+        }
+    </script>
+</body>
+</html>
