@@ -20,7 +20,7 @@
 
 ## 📹 Demo
 
-![EasyFind Demo](assets/demo.gif)
+![EasyFind Demo](demo.gif)
 
 ## 🛠️ Installation
 
